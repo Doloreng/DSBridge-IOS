@@ -1,0 +1,15 @@
+.DS_Store
+.svn
+*.ipa
+*.app
+*.mobileprovision
+dist/
+!*.xcodeproj/project.pbxproj
+DerivedData/
+*.xcuserstate    
+project.xcworkspace    
+xcuserdata    
+UserInterfaceState.xcuserstate    
+project.xcworkspace/    
+xcuserdata/    
+UserInterface.xcuserstate
