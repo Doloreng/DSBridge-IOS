@@ -9,7 +9,6 @@
 #import "ViewController.h"
 #import <WebKit/WebKit.h>
 #import "JsEchoApi.h"
-#import "dsbridgedemo-Swift.h"
 @interface ViewController ()
 @end
 
@@ -24,7 +23,7 @@
     [dwebview addJavascriptObject:[[JsApiTest alloc] init] namespace:nil];
     
     // register api object without namespace
-    [dwebview addJavascriptObject:[[ JsApiTestSwift alloc] init] namespace:@"swift"];
+//    [dwebview addJavascriptObject:[[ JsApiTestSwift alloc] init] namespace:@"swift"];
     
     // register api object with namespace "echo"
     [dwebview addJavascriptObject:[[JsEchoApi alloc] init] namespace:@"echo"];
@@ -35,7 +34,6 @@
     [dwebview customJavascriptDialogLabelTitles:@{@"alertTitle":@"Notification",@"alertBtn":@"OK"}];
     
     dwebview.navigationDelegate=self;
-    
     // load test.html
     NSString *path = [[NSBundle mainBundle] bundlePath];
     NSURL *baseURL = [NSURL fileURLWithPath:path];
@@ -53,6 +51,10 @@
 
     [dwebview callHandler:@"append" arguments:@[@"I",@"love",@"you"] completionHandler:^(NSString * _Nullable value) {
        NSLog(@"call succeed, append string is: %@",value);
+    }];
+    
+    [dwebview callHandler:@"recive_dict" arguments:@[@{@"msge":@"abc",@"code":@(2000)}] completionHandler:^(NSString * _Nullable value) {
+       NSLog(@"call succeed, recive_dict is: %@",value);
     }];
 
     // this invocation will be return 5 times

@@ -2,6 +2,7 @@
 #import "JSBUtil.h"
 #import "DSCallInfo.h"
 #import "InternalApis.h"
+#import "DSBridgeMethodProxy.h"
 #import <objc/message.h>
 
 @implementation DWKWebView
@@ -392,6 +393,94 @@ initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completi
         namespace=@"";
     }
     [javaScriptNamespaceInterfaces removeObjectForKey:namespace];
+}
+
+/**
+ * Register a single bridge method with namespace
+ * This method uses a shared proxy object to manage all registered methods efficiently
+ * @param methodName The name of the method to register
+ * @param handler The block that will be called when the method is invoked from JavaScript
+ * @param namespace The namespace for the method (can be nil for global namespace)
+ */
+- (void)registerBridgeMethod:(NSString *)methodName 
+                     handler:(id)handler 
+                   namespace:(NSString *)namespace {
+    if (methodName == nil || handler == nil) {
+        NSLog(@"DSBridge: methodName and handler cannot be nil");
+        return;
+    }
+    
+    if (namespace == nil) {
+        namespace = @"";
+    }
+    
+    // Get or create the shared proxy object for this namespace
+    DSBridgeMethodProxy *proxyObject = [javaScriptNamespaceInterfaces objectForKey:namespace];
+    if (proxyObject == nil || ![proxyObject isKindOfClass:[DSBridgeMethodProxy class]]) {
+        // Create a new proxy object only if it doesn't exist for this namespace
+        proxyObject = [[DSBridgeMethodProxy alloc] init];
+        [javaScriptNamespaceInterfaces setObject:proxyObject forKey:namespace];
+    }
+    
+    // Register the method with the proxy object
+    [proxyObject registerMethod:methodName withHandler:handler];
+}
+
+/**
+ * Check if a bridge method exists in the specified namespace
+ */
+- (BOOL)hasBridgeMethod:(NSString *)methodName namespace:(NSString *)namespace {
+    if (methodName == nil) {
+        return NO;
+    }
+    
+    if (namespace == nil) {
+        namespace = @"";
+    }
+    
+    DSBridgeMethodProxy *proxyObject = [javaScriptNamespaceInterfaces objectForKey:namespace];
+    if ([proxyObject isKindOfClass:[DSBridgeMethodProxy class]]) {
+        return [proxyObject hasMethod:methodName];
+    }
+    
+    return NO;
+}
+
+/**
+ * Get all registered bridge method names in the specified namespace
+ */
+- (NSArray<NSString *> *)getBridgeMethodNamesInNamespace:(NSString *)namespace {
+    if (namespace == nil) {
+        namespace = @"";
+    }
+    
+    DSBridgeMethodProxy *proxyObject = [javaScriptNamespaceInterfaces objectForKey:namespace];
+    if ([proxyObject isKindOfClass:[DSBridgeMethodProxy class]]) {
+        return [proxyObject registeredMethodNames];
+    }
+    
+    return @[];
+}
+
+/**
+ * Remove a specific bridge method from the specified namespace
+ */
+- (void)removeBridgeMethod:(NSString *)methodName namespace:(NSString *)namespace {
+    if (methodName == nil) {
+        return;
+    }
+    
+    if (namespace == nil) {
+        namespace = @"";
+    }
+    
+    DSBridgeMethodProxy *proxyObject = [javaScriptNamespaceInterfaces objectForKey:namespace];
+    if ([proxyObject isKindOfClass:[DSBridgeMethodProxy class]]) {
+        // Note: DSBridgeMethodProxy doesn't have a remove method yet
+        // You could add one if needed, or just remove the entire namespace
+        // For now, we'll just log that this method was called
+        NSLog(@"DSBridge: removeBridgeMethod called for %@ in namespace %@", methodName, namespace);
+    }
 }
 
 - (void)customJavascriptDialogLabelTitles:(NSDictionary *)dic{

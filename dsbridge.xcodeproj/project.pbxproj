@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8142EA1E214212E700BEE5C0 /* JsApiTestSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8142EA1D214212E700BEE5C0 /* JsApiTestSwift.swift */; };
 		815612EB2020304600C4F5CD /* InternalApis.m in Sources */ = {isa = PBXBuildFile; fileRef = 815612EA2020304600C4F5CD /* InternalApis.m */; };
 		815612EE202041B000C4F5CD /* DSCallInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 815612ED202041B000C4F5CD /* DSCallInfo.m */; };
 		815612F12022E42D00C4F5CD /* JsEchoApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 815612F02022E42D00C4F5CD /* JsEchoApi.m */; };
@@ -28,6 +27,9 @@
 		81CFC8602029456C00CF9D83 /* readme-chs.md in Sources */ = {isa = PBXBuildFile; fileRef = 81CFC85F2029456C00CF9D83 /* readme-chs.md */; };
 		81CFC868202C42AA00CF9D83 /* img in Resources */ = {isa = PBXBuildFile; fileRef = 81CFC867202C42AA00CF9D83 /* img */; };
 		81EBBFFF1EF24DDE00D1E4C1 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 81EBBFFD1EF24DDE00D1E4C1 /* README.md */; };
+		FF8FC4232E682568006EFB38 /* BridgeMethodExample.m in Sources */ = {isa = PBXBuildFile; fileRef = FF8FC4222E682568006EFB38 /* BridgeMethodExample.m */; };
+		FF8FC4242E682568006EFB38 /* bridge-test.html in Resources */ = {isa = PBXBuildFile; fileRef = FF8FC4202E682568006EFB38 /* bridge-test.html */; };
+		FF8FC42B2E68473E006EFB38 /* DSBridgeMethodProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = FF8FC42A2E68473E006EFB38 /* DSBridgeMethodProxy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,8 +59,6 @@
 
 /* Begin PBXFileReference section */
 		812F1D3B216F1F9D00B5BD0C /* publish.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = publish.sh; sourceTree = "<group>"; };
-		8142EA1C214212E600BEE5C0 /* dsbridgedemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "dsbridgedemo-Bridging-Header.h"; sourceTree = "<group>"; };
-		8142EA1D214212E700BEE5C0 /* JsApiTestSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsApiTestSwift.swift; sourceTree = "<group>"; };
 		815612E92020304600C4F5CD /* InternalApis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InternalApis.h; sourceTree = "<group>"; };
 		815612EA2020304600C4F5CD /* InternalApis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InternalApis.m; sourceTree = "<group>"; };
 		815612EC202041B000C4F5CD /* DSCallInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSCallInfo.h; sourceTree = "<group>"; };
@@ -89,6 +89,11 @@
 		81CFC867202C42AA00CF9D83 /* img */ = {isa = PBXFileReference; lastKnownFileType = folder; path = img; sourceTree = "<group>"; };
 		81EBBFF71EF246BD00D1E4C1 /* dsBridge.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsBridge.podspec; sourceTree = "<group>"; };
 		81EBBFFD1EF24DDE00D1E4C1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		FF8FC4202E682568006EFB38 /* bridge-test.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "bridge-test.html"; sourceTree = "<group>"; };
+		FF8FC4212E682568006EFB38 /* BridgeMethodExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgeMethodExample.h; sourceTree = "<group>"; };
+		FF8FC4222E682568006EFB38 /* BridgeMethodExample.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BridgeMethodExample.m; sourceTree = "<group>"; };
+		FF8FC4292E68473E006EFB38 /* DSBridgeMethodProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSBridgeMethodProxy.h; sourceTree = "<group>"; };
+		FF8FC42A2E68473E006EFB38 /* DSBridgeMethodProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSBridgeMethodProxy.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +145,8 @@
 			children = (
 				818F0BB61E18C3B800679925 /* DWKWebView.h */,
 				818F0BB51E18C3B800679925 /* DWKWebView.m */,
+				FF8FC4292E68473E006EFB38 /* DSBridgeMethodProxy.h */,
+				FF8FC42A2E68473E006EFB38 /* DSBridgeMethodProxy.m */,
 				818F0B911E18C08100679925 /* dsbridge.h */,
 				818F0BBE1E18C59200679925 /* JSBUtil.h */,
 				818F0BBF1E18C59200679925 /* JSBUtil.m */,
@@ -165,11 +172,12 @@
 				818F0BA01E18C0AA00679925 /* Supporting Files */,
 				818F0BA61E18C0AA00679925 /* ViewController.h */,
 				818F0BA71E18C0AA00679925 /* ViewController.m */,
+				FF8FC4202E682568006EFB38 /* bridge-test.html */,
+				FF8FC4212E682568006EFB38 /* BridgeMethodExample.h */,
+				FF8FC4222E682568006EFB38 /* BridgeMethodExample.m */,
 				818F0BCF1E1A820B00679925 /* test.html */,
 				815612EF2022E42D00C4F5CD /* JsEchoApi.h */,
 				815612F02022E42D00C4F5CD /* JsEchoApi.m */,
-				8142EA1D214212E700BEE5C0 /* JsApiTestSwift.swift */,
-				8142EA1C214212E600BEE5C0 /* dsbridgedemo-Bridging-Header.h */,
 			);
 			path = dsbridgedemo;
 			sourceTree = "<group>";
@@ -242,7 +250,7 @@
 					};
 					818F0B9D1E18C0AA00679925 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = XTLLEQZMD7;
+						DevelopmentTeam = 476C4Y6325;
 						LastSwiftMigration = 0940;
 						ProvisioningStyle = Automatic;
 					};
@@ -253,6 +261,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -277,6 +286,7 @@
 				818F0BB01E18C0AA00679925 /* LaunchScreen.storyboard in Resources */,
 				818F0BAD1E18C0AA00679925 /* Assets.xcassets in Resources */,
 				818F0BAB1E18C0AA00679925 /* Main.storyboard in Resources */,
+				FF8FC4242E682568006EFB38 /* bridge-test.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +302,7 @@
 				818F0BC01E18C59200679925 /* JSBUtil.m in Sources */,
 				818F0BB71E18C3B800679925 /* DWKWebView.m in Sources */,
 				815612EE202041B000C4F5CD /* DSCallInfo.m in Sources */,
+				FF8FC42B2E68473E006EFB38 /* DSBridgeMethodProxy.m in Sources */,
 				815612EB2020304600C4F5CD /* InternalApis.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,10 +313,10 @@
 			files = (
 				818F0BA81E18C0AA00679925 /* ViewController.m in Sources */,
 				818F0BC91E18DD3600679925 /* JsApiTest.m in Sources */,
+				FF8FC4232E682568006EFB38 /* BridgeMethodExample.m in Sources */,
 				818F0BA51E18C0AA00679925 /* AppDelegate.m in Sources */,
 				815612F12022E42D00C4F5CD /* JsEchoApi.m in Sources */,
 				818F0BA21E18C0AA00679925 /* main.m in Sources */,
-				8142EA1E214212E700BEE5C0 /* JsApiTestSwift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,7 +443,7 @@
 		818F0B981E18C08100679925 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -444,7 +455,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -459,14 +470,15 @@
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = XTLLEQZMD7;
+				DEVELOPMENT_TEAM = 476C4Y6325;
 				INFOPLIST_FILE = dsbridgedemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = wendu.dsbridgedemo.xx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "dsbridgedemo/dsbridgedemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -477,13 +489,14 @@
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = XTLLEQZMD7;
+				DEVELOPMENT_TEAM = 476C4Y6325;
 				INFOPLIST_FILE = dsbridgedemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = wendu.dsbridgedemo.xx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "dsbridgedemo/dsbridgedemo-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSBridge 方法测试</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        button {
+            background-color: #007AFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #0056CC;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid #007AFF;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 5px;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DSBridge 方法测试</h1>
+        <p>这个页面测试新添加的registerBridgeMethod功能</p>
+
+        <!-- 全局方法测试 -->
+        <div class="test-section">
+            <h3>全局方法测试</h3>
+            <input type="text" id="alertMessage" placeholder="输入消息" value="Hello from JavaScript!">
+            <button onclick="testShowAlert()">显示Alert</button>
+            <div id="alertResult" class="result" style="display: none;"></div>
+        </div>
+
+        <!-- 设备信息测试 -->
+        <div class="test-section">
+            <h3>设备信息测试</h3>
+            <button onclick="testGetDeviceInfo()">获取设备信息</button>
+            <div id="deviceResult" class="result" style="display: none;"></div>
+        </div>
+
+        <!-- 异步操作测试 -->
+        <div class="test-section">
+            <h3>异步操作测试</h3>
+            <input type="text" id="asyncData" placeholder="输入数据" value="测试数据">
+            <button onclick="testAsyncOperation()">执行异步操作</button>
+            <div id="asyncResult" class="result" style="display: none;"></div>
+        </div>
+
+        <!-- 数学计算测试 -->
+        <div class="test-section">
+            <h3>数学计算测试</h3>
+            <input type="number" id="numA" placeholder="数字A" value="10">
+            <input type="number" id="numB" placeholder="数字B" value="5">
+            <select id="operation">
+                <option value="add">加法</option>
+                <option value="subtract">减法</option>
+                <option value="multiply">乘法</option>
+                <option value="divide">除法</option>
+            </select>
+            <button onclick="testCalculate()">计算</button>
+            <div id="calcResult" class="result" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        // 等待DSBridge初始化完成
+        function waitForDSBridge(callback) {
+            if (window.dsBridge) {
+                callback();
+            } else {
+                setTimeout(() => waitForDSBridge(callback), 100);
+            }
+        }
+
+        // 测试显示Alert
+        function testShowAlert() {
+            const message = document.getElementById('alertMessage').value;
+            if (window.dsBridge) {
+                window.dsBridge.call('showAlert', message);
+                showResult('alertResult', 'Alert已显示: ' + message);
+            } else {
+                showResult('alertResult', 'DSBridge未初始化');
+            }
+        }
+
+        // 测试获取设备信息
+        function testGetDeviceInfo() {
+            if (window.dsBridge) {
+                window.dsBridge.call('device.getDeviceInfo', '', function(result) {
+                    showResult('deviceResult', '设备信息: ' + result);
+                });
+            } else {
+                showResult('deviceResult', 'DSBridge未初始化');
+            }
+        }
+
+        // 测试异步操作
+        function testAsyncOperation() {
+            const data = document.getElementById('asyncData').value;
+            if (window.dsBridge) {
+                window.dsBridge.call('async.asyncOperation', data, function(result) {
+                    showResult('asyncResult', '异步操作结果: ' + result);
+                });
+            } else {
+                showResult('asyncResult', 'DSBridge未初始化');
+            }
+        }
+
+        // 测试数学计算
+        function testCalculate() {
+            const a = parseFloat(document.getElementById('numA').value);
+            const b = parseFloat(document.getElementById('numB').value);
+            const operation = document.getElementById('operation').value;
+            
+            if (window.dsBridge) {
+                const result = window.dsBridge.call('math.calculate', [a, b, operation]);
+                showResult('calcResult', `计算结果: ${a} ${operation} ${b} = ${result}`);
+            } else {
+                showResult('calcResult', 'DSBridge未初始化');
+            }
+        }
+
+        // 显示结果
+        function showResult(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+
+        // 页面加载完成后等待DSBridge初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            waitForDSBridge(function() {
+                console.log('DSBridge已初始化');
+                // 可以在这里添加其他初始化代码
+            });
+        });
+    </script>
+</body>
+</html>

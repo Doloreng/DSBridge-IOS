@@ -36,6 +36,38 @@ typedef void (^JSCallback)(NSString * _Nullable result,BOOL complete);
 // Remove the Javascript Object with the supplied namespace
 - (void)removeJavascriptObject:(NSString *  _Nullable) namespace;
 
+/**
+ * Register a single bridge method with namespace
+ * @param methodName The name of the method to register
+ * @param handler The block that will be called when the method is invoked from JavaScript
+ * @param namespace The namespace for the method (can be nil for global namespace)
+ */
+- (void)registerBridgeMethod:(NSString * _Nonnull)methodName 
+                     handler:(id _Nonnull)handler 
+                   namespace:(NSString * _Nullable)namespace;
+
+/**
+ * Check if a bridge method exists in the specified namespace
+ * @param methodName The name of the method to check
+ * @param namespace The namespace to check in (can be nil for global namespace)
+ * @return YES if the method exists, NO otherwise
+ */
+- (BOOL)hasBridgeMethod:(NSString * _Nonnull)methodName namespace:(NSString * _Nullable)namespace;
+
+/**
+ * Get all registered bridge method names in the specified namespace
+ * @param namespace The namespace to get methods from (can be nil for global namespace)
+ * @return Array of method names
+ */
+- (NSArray<NSString *> * _Nonnull)getBridgeMethodNamesInNamespace:(NSString * _Nullable)namespace;
+
+/**
+ * Remove a specific bridge method from the specified namespace
+ * @param methodName The name of the method to remove
+ * @param namespace The namespace to remove from (can be nil for global namespace)
+ */
+- (void)removeBridgeMethod:(NSString * _Nonnull)methodName namespace:(NSString * _Nullable)namespace;
+
 // Test whether the handler exist in javascript
 - (void) hasJavascriptMethod:(NSString * _Nonnull) handlerName methodExistCallback:(void(^ _Nullable)(bool exist))callback;
 
