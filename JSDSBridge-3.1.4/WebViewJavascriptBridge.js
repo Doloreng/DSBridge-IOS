@@ -5,44 +5,43 @@ var bridge = {
     _namespaces: {
         // 默认配置的四个命名空间
         'control': {
-            'play': true,
-            'pause': true,
-            'stop': true,
-            'next': true,
-            'prev': true,
-            'seek': true,
-            'setVolume': true,
-            'getVolume': true,
-            'mute': true,
-            'unmute': true
+            'back_to_home': true,
+            'network_send_request': true
         },
         'system': {
-            'getDeviceInfo': true,
-            'getAppVersion': true,
-            'getSystemInfo': true,
-            'exitApp': true,
-            'restartApp': true,
-            'clearCache': true,
-            'getBatteryLevel': true,
-            'getNetworkStatus': true
+            'system_miaobo_info': true,
+            'logger_upload_analyze_info': true
         },
         'live': {
-            'startLive': true,
-            'stopLive': true,
-            'switchCamera': true,
-            'setFlash': true,
-            'setResolution': true,
-            'getLiveStatus': true,
-            'setBeauty': true,
-            'setFilter': true
-        },
-        'proxy': {
-            'getProxyList': true,
-            'setProxy': true,
-            'clearProxy': true,
-            'testProxy': true,
-            'getCurrentProxy': true,
-            'switchProxy': true
+            'Platform_OpenUrl': true,
+            'Platform_CallMethod': true,
+            'Platform_ClearCookie': true,
+            'Platform_SyncCookie': true,
+            'Platform_switch_stage': true,
+            'Platform_switch_streamUrl': true,
+            'Platform_preload_resources': true,
+            'Platform_ShowWindow': true,
+            'Platform_RefreshWindow': true,
+            'Platform_HideWindow': true,
+            'Platform_CloseWindow': true,
+            'Platform_ShowToast': true,
+            'Platform_InnerLink': true,
+            'Platform_HyperLink': true,
+            'Platform_DisplayLiveRoom': true,
+            'Platform_KeepWebAlive' : true,
+            'Platform_CMD_ReloadConfig' : true,
+            'Platform_CMD_ReloadRtc' : true,
+            'Platform_CMD_StopLive' : true,
+            'Platform_ShutDown_ClientPushStream' : true,
+            'Platform_StopDisplay' : true,
+            'Platform_Switch_Live_Statistics' : true,
+            'Platform_Switch_Voice_Source' : true,
+            'set_back_stoplive' : true,
+            'sync_local_storage' : true,
+            'Platform_start_PiP' : true,
+            'Platform_stop_PiP' : true,
+            'Platform_Get_Cookie' : true,
+            'download_by_browser' : true
         }
     },
     
@@ -71,7 +70,7 @@ var bridge = {
         return method;
     },
     
-    call: function (method, args, cb) {
+    callHandler: function (method, args, cb) {
         var ret = '';
         if (typeof args == 'function') {
             cb = args;
@@ -99,14 +98,14 @@ var bridge = {
         return JSON.parse(ret || '{}').data;
     },
     
-    register: function (name, fun) {
+    registerHandler: function (name, fun) {
         // 默认就是异步，直接使用 _dsaf
         var q = window._dsaf;
         if (!window._dsInit) {
             window._dsInit = true;
             // notify native that js apis register successfully on next event loop
             setTimeout(function () {
-                bridge.call("_dsb.dsinit");
+                bridge.callHandler("_dsb.dsinit");
             }, 0);
         }
         if (typeof fun == "object") {
@@ -119,11 +118,11 @@ var bridge = {
     hasNativeMethod: function (name, type) {
         // 获取完整的方法名（包含namespace）
         var fullMethod = this._getFullMethodName(name);
-        return this.call("_dsb.hasNativeMethod", { name: fullMethod, type: type || "all" });
+        return this.callHandler("_dsb.hasNativeMethod", { name: fullMethod, type: type || "all" });
     },
     
     disableJavascriptDialogBlock: function (disable) {
-        this.call("_dsb.disableJavascriptDialogBlock", {
+        this.callHandler("_dsb.disableJavascriptDialogBlock", {
             disable: disable !== false
         });
     }
@@ -143,7 +142,7 @@ var bridge = {
         dsBridge: bridge,
         
         close: function () {
-            bridge.call("_dsb.closePage");
+            bridge.callHandler("_dsb.closePage");
         },
         
         _handleMessageFromNative: function (info) {
@@ -158,14 +157,14 @@ var bridge = {
             
             var callSyn = function (f, ob) {
                 ret.data = f.apply(ob, arg);
-                bridge.call("_dsb.returnValue", ret);
+                bridge.callHandler("_dsb.returnValue", ret);
             };
             
             var callAsyn = function (f, ob) {
                 arg.push(function (data, complete) {
                     ret.data = data;
                     ret.complete = complete !== false;
-                    bridge.call("_dsb.returnValue", ret);
+                    bridge.callHandler("_dsb.returnValue", ret);
                 });
                 f.apply(ob, arg);
             };
@@ -206,7 +205,7 @@ var bridge = {
         window[attr] = ob[attr];
     }
     
-    bridge.register("_hasJavascriptMethod", function (method, tag) {
+    bridge.registerHandler("_hasJavascriptMethod", function (method, tag) {
         var name = method.split('.');
         if (name.length < 2) {
             return !!(_dsf[name] || _dsaf[name]);
@@ -221,4 +220,9 @@ var bridge = {
 }();
 
 // 将bridge暴露到全局作用域，通过window.WebViewJavascriptBridge访问
-window.WebViewJavascriptBridge = bridge;
+try {
+    window.WebViewJavascriptBridge = bridge;
+    window.console.log('WebViewJavascriptBridge initialized successfully');
+} catch (error) {
+    window.console.error('Failed to initialize WebViewJavascriptBridge:', error);
+}
